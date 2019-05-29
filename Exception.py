@@ -1,0 +1,2 @@
+class OccupiedTileException(Exception):
+    pass

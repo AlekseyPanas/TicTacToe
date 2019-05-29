@@ -1,0 +1,3 @@
+running = True
+
+gamestate = "menu"
