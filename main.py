@@ -18,4 +18,4 @@ while Globals.running:
     if Globals.gamestate == "game":
         GAME.run_game(screen)
     else:
-        MENU.run_menu()
+        MENU.run_menu(screen)
