@@ -1,17 +1,13 @@
 import pygame
-import Game
-import Player
 import Globals
-import Menu
 
 SCREEN_SIZE = (600, 680)
 screen = pygame.display.set_mode(SCREEN_SIZE, pygame.DOUBLEBUF)
 
 # Conversions
 Globals.quit_image = Globals.quit_image.convert_alpha()
-
-MENU = Menu.Menu()
-GAME = Game.Game(Player.User(), Player.Randomer())
+Globals.pve_image = Globals.pve_image.convert_alpha()
+Globals.pvp_image = Globals.pvp_image.convert_alpha()
 
 while Globals.running:
     events = pygame.event.get()
@@ -21,6 +17,6 @@ while Globals.running:
             Globals.running = False
 
     if Globals.gamestate == "game":
-        GAME.run_game(screen)
+        Globals.GAME.run_game(screen, events)
     else:
-        MENU.run_menu(screen, events)
+        Globals.MENU.run_menu(screen, events)

@@ -28,7 +28,7 @@ class Game:
         # The player who won
         self.winner = None
 
-    def run_game(self, screen):
+    def run_game(self, screen, events):
         screen.fill((55, 55, 55))
         self.draw_grid(screen)
 
@@ -41,6 +41,26 @@ class Game:
                     self.draw_o((idx2 * 200, idx1 * 200), screen)
 
         # Draws text at bottom of screen
+        text_surface = pygame.font.SysFont("Pacific", 60).render(self.current_player.name + "'s turn", False,
+                                                                 (255, 255, 255))
+
+        screen.blit(text_surface, ((600 - text_surface.get_width()) / 2, 610))
+
+        # Runs if game is over
+        if self.winner is not None:
+            # Displays the winner in the middle of screen.
+            if not self.winner == "tie":
+                text_surface = pygame.font.SysFont("Impact", 70, False).render(self.winner.name + " Wins!", False,
+                                                                              (90, 255, 90))
+            else:
+                text_surface = pygame.font.SysFont("Impact", 70, False).render("Its a Tie!", False,(90, 255, 90))
+
+            screen.blit(text_surface, ((600 - text_surface.get_width()) / 2, 30))
+
+            # Checks for click event to end game
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    Globals.gamestate = "menu"
 
         pygame.display.update()
 
@@ -60,38 +80,18 @@ class Game:
             self.place_mark(self.current_player.value, mark_pos)
 
             # Checks for wins and runs the game over procedure.
-            if self.check_win(self.current_player.value):
+            if Globals.check_win(self.current_player.value, self.board):
                 self.winner = self.current_player
+
+            elif Globals.check_tie(self.board):
+                self.winner = "tie"
 
             # Changes the turn to the next player
             self.current_player = self.p1 if self.current_player == self.p2 else self.p2
-        else:
-            print("Yo")
 
     # Places an 1 (x) or a 2 (O) in the given board position
     def place_mark(self, value, position):
         self.board[position[0]][position[1]] = value
-
-    # Returns a boolean based on whether the game is won or not
-    def check_win(self, value):
-        # Checks all board win conditions
-        if self.board[1][1] == value:
-            if (self.board[0][0] == value and self.board[2][2] == value) or (
-                    self.board[0][2] == value and self.board[2][0] == value) or (
-                    self.board[1][0] == value and self.board[1][2] == value) or (
-                    self.board[0][1] == value and self.board[2][1] == value):
-                return True
-
-        elif self.board[0][0] == value:
-            if (self.board[0][1] == value and self.board[0][2] == value) or (
-                    self.board[1][0] == value and self.board[2][0] == value):
-                return True
-
-        elif self.board[2][2] == value:
-            if (self.board[2][0] == value and self.board[2][1] == value) or (
-                    self.board[1][2] == value and self.board[0][2] == value):
-                return True
-        return False
 
     # Draws an x given the top left position of the desired drawing location
     @staticmethod
