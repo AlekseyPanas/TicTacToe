@@ -46,7 +46,7 @@ class Minimax(Player):
     def move(self, board):
         # Checks if its the first turn and automatically takes center tile
         if Globals.is_board_blank(board):
-            return 1, 1
+            return random.randint(0, 2), random.randint(0, 2)
 
         else:
             # The value of the opponent
