@@ -6,7 +6,7 @@ import Globals
 
 
 class Game:
-    def __init__(self, player1, player2):
+    def __init__(self, player1, player2, start=0):
         self.board = [[0, 0, 0],
                       [0, 0, 0],
                       [0, 0, 0]]
@@ -15,15 +15,23 @@ class Game:
         self.p1 = player1
         self.p2 = player2
 
-        # Assigns X or O to players
-        pool = [1, 2]
-        choice = random.choice(pool)
-        pool.remove(choice)
-        self.p1.value = choice
-        self.p2.value = pool[0]
+        if start == 0:
+            # Assigns X or O to players
+            pool = [1, 2]
+            choice = random.choice(pool)
+            pool.remove(choice)
+            self.p1.value = choice
+            self.p2.value = pool[0]
+        else:
+            if start == 1:
+                self.p1.value = 1
+                self.p2.value = 2
+            elif start == 2:
+                self.p2.value = 1
+                self.p1.value = 2
 
         # Determines who's turn it is first
-        self.current_player = random.choice((self.p1, self.p2))
+        self.current_player = self.p1 if self.p1.value == 1 else self.p2
 
         # The player who won
         self.winner = None
@@ -60,6 +68,7 @@ class Game:
             # Checks for click event to end game
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    Globals.MENU.menu_state = "menu"
                     Globals.gamestate = "menu"
 
         pygame.display.update()

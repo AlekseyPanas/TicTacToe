@@ -7,8 +7,10 @@ gamestate = "menu"
 
 # images
 quit_image = pygame.image.load("quitbutton.png")
-pve_image = pygame.image.load("pvebutton.png")
-pvp_image = pygame.image.load("pvpbutton.png")
+pve_image = pygame.image.load("pve.png")
+pvp_image = pygame.image.load("aivsai.png")
+first_image = pygame.image.load("gofirst.png")
+second_image = pygame.image.load("gosecond.png")
 
 GAME = None
 MENU = Menu.Menu()
